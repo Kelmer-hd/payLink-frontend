@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { RegisterModalComponent } from '../register-modal/register-modal.component';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 
 @Component({
