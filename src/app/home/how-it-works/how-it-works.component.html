@@ -1,0 +1,19 @@
+<div class="py-24 border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4">Empieza en minutos</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          Proceso simple y directo para empezar a vender hoy mismo
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        @for (step of steps; track step.number) {
+          <app-step-card
+            [number]="step.number"
+            [title]="step.title"
+            [description]="step.description"
+          />
+        }
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,7 @@
+:host {
+    @apply fixed inset-0 z-50;
+  }
+  
+  .group:hover input {
+    @apply border-gray-600/50;
+  }

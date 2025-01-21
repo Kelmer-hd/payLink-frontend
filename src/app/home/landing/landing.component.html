@@ -1,0 +1,19 @@
+<div class="min-h-screen bg-black text-white">
+    <!-- Gradient Background -->
+    <div class="fixed inset-0 bg-gradient-to-b from-purple-500/10 via-transparent to-blue-500/5 pointer-events-none"></div>
+
+    <app-navbar 
+      (openAuth)="isAuthModalOpen.set(true)"
+      (scrollTo)="scrollToSection($event)"
+    ></app-navbar>
+    
+    <app-hero
+      (openAuth)="isAuthModalOpen.set(true)"
+    ></app-hero>
+    <app-product-demo />>
+    <app-feature />
+    <app-how-it-works />
+    <app-testimonials />
+    <app-pricing />
+    <app-footer />>
+  </div>

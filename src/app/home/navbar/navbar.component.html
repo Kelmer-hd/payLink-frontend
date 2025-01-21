@@ -1,0 +1,23 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-sm border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="font-bold text-xl">ProductLink</div>
+      <div class="flex items-center gap-6">
+        <a href="#features" 
+          (click)="handleScroll($event, 'features')" 
+          class="text-gray-400 hover:text-white">
+          Características
+        </a>
+        <a href="#pricing" 
+          (click)="handleScroll($event, 'pricing')" 
+          class="text-gray-400 hover:text-white">
+          Precios
+        </a>
+        <button
+          routerLink="auth/login"
+          class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+        >
+          Iniciar sesión
+        </button>
+      </div>
+    </div>
+  </nav>

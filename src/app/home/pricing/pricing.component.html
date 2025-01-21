@@ -1,0 +1,22 @@
+<div class="py-24 border-t border-white/10" id="pricing">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4">Planes para cada necesidad</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          Sin costos ocultos. Sin comisiones por venta. Cancela cuando quieras.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        @for (plan of plans; track plan.title) {
+          <app-pricing-card
+            [title]="plan.title"
+            [price]="plan.price"
+            [period]="plan.period"
+            [features]="plan.features"
+            [cta]="plan.cta"
+            [highlighted]="plan.highlighted"
+          />
+        }
+      </div>
+    </div>
+  </div>

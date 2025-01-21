@@ -1,0 +1,41 @@
+<div class="relative pt-32 pb-20">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+                <span class="text-purple-400">Nuevo</span>
+                <span class="text-gray-400">|</span>
+                <span class="text-gray-400">Integración con Yape y Plin</span>
+                <i class="lucide-chevron-right w-4 h-4 text-gray-400"></i>
+            </div>
+            <h1
+                class="text-6xl font-bold mb-8 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+                Tu catálogo. <br />
+                Un solo link. <br />
+                Ventas infinitas.
+            </h1>
+            <p class="text-xl text-gray-400 mb-12">
+                Convierte tus productos en links únicos y vende directamente por Redes Sociales.
+                Sin complicaciones, sin tienda completa, solo ventas.
+            </p>
+            <button (click)="showAuthModal = true; authMode = 'register'"
+                class="group bg-white text-black px-6 py-3 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition-all">
+                Empezar gratis
+                <i class="lucide-arrow-right w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+
+            @if (showAuthModal) {
+                <app-auth-modal
+                  [initialMode]="authMode"
+                  (close)="showAuthModal = false"
+                ></app-auth-modal>
+              }
+            <!-- <button
+          (click)="openAuth.emit()"
+          class="group bg-white text-black px-6 py-3 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition-all"
+        >
+          Empezar gratis
+          <i class="lucide-arrow-right w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+        </button> -->
+        </div>
+    </div>
+</div>
