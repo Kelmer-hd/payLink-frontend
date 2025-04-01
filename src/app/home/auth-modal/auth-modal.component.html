@@ -20,49 +20,95 @@
                 <h2 class="text-2xl font-bold text-white">
                     {{ isLogin ? 'Iniciar sesión' : 'Crea tu cuenta gratis' }}
                 </h2>
+                @if (!isLogin) {
+                <p class="mt-2 text-gray-400 text-sm">
+                    Comienza a vender en línea con nosotros
+                </p>
+                }
             </div>
+
             <!-- Form section -->
             <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-5">
                 <div class="space-y-5">
                     <!-- Email -->
                     <div class="group">
                         <input type="email" formControlName="email" placeholder="Email" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
-                         focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
-                         group-hover:border-gray-600/50" />
+                                     focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
+                                     group-hover:border-gray-600/50" />
                         @if (authForm.get('email')?.invalid && authForm.get('email')?.touched) {
-                        <p class="mt-1 text-sm text-red-500">Email inválido</p>
+                        <p class="mt-1 text-sm text-red-500">
+                            @if (authForm.get('email')?.errors?.['required']) {
+                            El email es requerido.
+                            } @else if (authForm.get('email')?.errors?.['email'] ||
+                            authForm.get('email')?.errors?.['pattern']) {
+                            Ingresa un email válido.
+                            }
+                        </p>
                         }
                     </div>
 
-                    <!-- Password -->
                     <div class="group">
                         <input type="password" formControlName="password" placeholder="Contraseña" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
-                         focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
-                         group-hover:border-gray-600/50" />
+                                     focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
+                                     group-hover:border-gray-600/50" />
                         @if (authForm.get('password')?.invalid && authForm.get('password')?.touched) {
-                        <p class="mt-1 text-sm text-red-500">La contraseña debe tener al menos 6 caracteres</p>
+                        <p class="mt-1 text-sm text-red-500">
+                            @if (authForm.get('password')?.errors?.['required']) {
+                            La contraseña es requerida.
+                            } @else if (authForm.get('password')?.errors?.['minLength']) {
+                            La contraseña debe tener al menos 6 caracteres.
+                            } @else if (authForm.get('password')?.errors?.['pattern']) {
+                            La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial.
+                            }
+                        </p>
                         }
                     </div>
 
-                    <!-- Additional fields for register -->
                     @if (!isLogin) {
                     <div class="space-y-5">
-                        <div class="group">
-                            <input type="text" formControlName="fullName" placeholder="Nombre completo" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
-                             focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
-                             group-hover:border-gray-600/50" />
+                        <!-- Personal Information Section -->
+                        <div class="space-y-5">
+                            <div class="group">
+                                <input type="text" formControlName="fullName" placeholder="Nombre completo" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
+                                             focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
+                                             group-hover:border-gray-600/50" />
+                                @if (authForm.get('fullName')?.invalid && authForm.get('fullName')?.touched) {
+                                <p class="mt-1 text-sm text-red-500">Nombre completo es requerido</p>
+                                }
+                            </div>
+
+                            <div class="group">
+                                <input type="text" formControlName="dni" placeholder="DNI Valido" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
+                                             focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
+                                             group-hover:border-gray-600/50" />
+                                @if (authForm.get('dni')?.invalid && authForm.get('dni')?.touched) {
+                                <p class="mt-1 text-sm text-red-500">Ingrese su número de DNI Valido</p>
+                                }
+                            </div>
+
+
+                            <div class="group">
+                                <input type="tel" formControlName="phone" placeholder="Teléfono (9 dígitos)" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
+                                             focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
+                                             group-hover:border-gray-600/50" />
+                                @if (authForm.get('phone')?.invalid && authForm.get('phone')?.touched) {
+                                <p class="mt-1 text-sm text-red-500">Ingresa un número de teléfono válido de 9 dígitos
+                                </p>
+                                }
+                            </div>
                         </div>
 
-                        <div class="group">
-                            <input type="tel" formControlName="phone" placeholder="Teléfono" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
-                             focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
-                             group-hover:border-gray-600/50" />
-                        </div>
-
-                        <div class="group">
-                            <input type="text" formControlName="businessName" placeholder="Nombre del negocio" class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
-                             focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
-                             group-hover:border-gray-600/50" />
+                        <!-- Business Information Section -->
+                        <div class="space-y-5">
+                            <div class="group">
+                                <input type="text" formControlName="businessName" placeholder="Nombre del negocio"
+                                    class="w-full px-4 py-3 bg-[#232030] rounded-xl border border-gray-700/50 text-white placeholder:text-gray-500
+                                             focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/25 transition-all duration-300
+                                             group-hover:border-gray-600/50" />
+                                @if (authForm.get('businessName')?.invalid && authForm.get('businessName')?.touched) {
+                                <p class="mt-1 text-sm text-red-500">Nombre del negocio es requerido</p>
+                                }
+                            </div>
                         </div>
                     </div>
                     }
@@ -77,9 +123,9 @@
 
                 <!-- Submit button -->
                 <button type="submit" [disabled]="authForm.invalid || isLoading" class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-medium
-                       hover:from-blue-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                       disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-blue-700
-                       transition-all duration-300 transform hover:scale-[1.02]">
+                               hover:from-blue-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                               disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-600 disabled:hover:to-blue-700
+                               transition-all duration-300 transform hover:scale-[1.02]">
                     @if (isLoading) {
                     <div class="flex items-center justify-center">
                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"

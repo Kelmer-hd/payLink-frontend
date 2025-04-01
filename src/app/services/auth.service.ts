@@ -23,20 +23,42 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.API_URL}/login`, credentials)
       .pipe(
         tap(response => {
+          console.log('Plan:', response.subscriptionPlan); // Debug
           localStorage.setItem('currentUser', JSON.stringify(response));
           this.currentUserSubject.next(response);
         })
       );
   }
 
-  register(userData: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.API_URL}/register`, userData)
+  register(formData: RegisterRequest): Observable<AuthResponse> {
+    const registerData: RegisterRequest = {
+      email: formData.email,
+      password: formData.password,
+      fullName: formData.fullName,
+      dni: formData.dni,
+      phone: formData.phone,
+      businessName: formData.businessName,
+      role: 'SELLER',
+      subscriptionPlan: 'FREE',
+      settings: {
+        whatsappNumber: formData.phone,
+        autoReplyMessage: 'Gracias por contactarnos',
+        customTheme: 'LIGHT',
+        paymentMethods: ['YAPE', 'PLIN']
+      }
+    };
+
+    return this.http.post<AuthResponse>(`${this.API_URL}/register`, registerData)
       .pipe(
         tap(response => {
           localStorage.setItem('currentUser', JSON.stringify(response));
           this.currentUserSubject.next(response);
         })
       );
+  }
+
+  verifyEmail(code: string): Observable<void> {
+    return this.http.post<void>(`${this.API_URL}/verify-email`, { code });
   }
 
   logout(): Observable<void> {
@@ -49,17 +71,13 @@ export class AuthService {
       );
   }
 
-  validateToken(): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.API_URL}/validate`, {})
-      .pipe(
-        tap(response => {
-          localStorage.setItem('currentUser', JSON.stringify(response));
-          this.currentUserSubject.next(response);
-        })
-      );
-  }
-
   get currentUserValue(): AuthResponse | null {
     return this.currentUserSubject.value;
+  }
+
+  // Método para manejar el token en las peticiones HTTP
+  getAuthorizationToken(): string | null {
+    const currentUser = this.currentUserValue;
+    return currentUser ? currentUser.token : null;
   }
 }

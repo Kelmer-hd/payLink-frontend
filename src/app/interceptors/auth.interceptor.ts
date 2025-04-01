@@ -1,21 +1,35 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const currentUser = localStorage.getItem('currentUser');
-    
-    if (currentUser) {
-      const { token } = JSON.parse(currentUser);
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }
-    
-    return next.handle(request);
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService); // Obtén el servicio AuthService
+  const router = inject(Router); // Obtén el servicio Router
+
+  const currentUser = authService.currentUserValue;
+
+
+  // Clona la solicitud y agrega el token JWT a la cabecera
+  if (currentUser?.token) {
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${currentUser.token}`
+      }
+    });
   }
-}
+
+  // Maneja la solicitud y captura errores
+  return next(req).pipe(
+    catchError((error) => {
+      if (error.status === 401) {
+        // Token expirado
+        authService.logout().subscribe(() => {
+          router.navigate(['/auth']);
+        });
+      }
+      return throwError(() => error);
+    })
+  );
+};

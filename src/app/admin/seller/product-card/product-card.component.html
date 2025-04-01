@@ -1,0 +1,62 @@
+<div class="relative flex flex-col overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
+    <!-- Product Image -->
+    <div *ngIf="product.images?.length" class="relative aspect-w-3 aspect-h-2">
+      <img [src]="product.images[0].url" [alt]="product.name" class="h-48 w-full object-cover">
+      
+      <!-- Status Badge -->
+      <div class="absolute top-2 right-2">
+        <span [class]="product.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
+          class="px-2 py-1 rounded-full text-xs font-medium">
+          {{product.active ? 'Activo' : 'Inactivo'}}
+        </span>
+      </div>
+    </div>
+    
+    <!-- Product Details -->
+    <div class="flex flex-1 flex-col justify-between p-6">
+      <div class="flex-1">
+        <h3 class="text-xl font-medium text-gray-900">{{product.name}}</h3>
+        <p class="mt-2 text-sm text-gray-600 line-clamp-2">{{product.description}}</p>
+
+        <!-- Price Section -->
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-2xl font-bold text-gray-900">S/ {{product.salePrice | number:'1.2-2'}}</span>
+          <span *ngIf="product.basePrice > product.salePrice" 
+                class="text-sm text-gray-500 line-through">
+            S/ {{product.basePrice | number:'1.2-2'}}
+          </span>
+        </div>
+
+        <!-- Stock Status -->
+        <div class="mt-2 flex items-center gap-2">
+          <span [class]="product.stock > 0 ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'"
+            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
+            {{product.stock > 0 ? 'En stock' : 'Agotado'}}
+          </span>
+          <span *ngIf="product.stock > 0" class="text-xs text-gray-500">
+            {{product.stock}} unidades
+          </span>
+        </div>
+        
+        <!-- Variants Badge (if any) -->
+        <div *ngIf="product.variants?.length" class="mt-2">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
+            {{product.variants.length}} variantes
+          </span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-6 flex items-center justify-end gap-2">
+        <button (click)="onEdit.emit(product)"
+          class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-md">
+          Editar
+        </button>
+        <button (click)="onToggleStatus.emit(product.id)"
+          class="inline-flex items-center px-3 py-1.5 text-sm font-medium"
+          [ngClass]="product.active ? 'text-red-600 hover:text-red-700 hover:bg-red-50' : 'text-green-600 hover:text-green-700 hover:bg-green-50'">
+          {{product.active ? 'Desactivar' : 'Activar'}}
+        </button>
+      </div>
+    </div>
+  </div>

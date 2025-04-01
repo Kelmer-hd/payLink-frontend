@@ -6,14 +6,24 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   canActivate: CanActivateFn = () => {
-    if (this.authService.currentUserValue) {
+    const currentUser = this.authService.currentUserValue;
+    
+    if (currentUser?.token) {
+      console.log('Acceso permitido');
       return true;
     }
-
-    this.router.navigate(['/auth/login']);
+  
+    console.log('Acceso denegado, redirigiendo a /auth');
+    this.router.navigate(['/auth']);
     return false;
   }
+
+
+  
 }

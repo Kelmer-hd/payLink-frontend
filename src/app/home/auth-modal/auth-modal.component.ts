@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RegisterRequest } from '../../interfaces/models/auth.model';
 
 @Component({
   selector: 'app-auth-modal',
@@ -19,36 +20,34 @@ export class AuthModalComponent {
   error: string | null = null;
   isLogin = false;
 
-  readonly activeTabClass = 'px-4 py-2 rounded-lg bg-blue-600 text-white transition-all duration-300';
-  readonly inactiveTabClass = 'px-4 py-2 rounded-lg text-gray-400 hover:text-white transition-all duration-300';
-
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) {
-    this.authForm = this.fb.group({
-
-    });
+    this.authForm = this.fb.group({});
     this.isLogin = this.initialMode === 'login';
     this.initForm();
   }
 
   private initForm(): void {
     const baseForm = {
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/)]]
     };
-
+  
     if (!this.isLogin) {
       Object.assign(baseForm, {
-        fullName: ['', Validators.required],
-        phone: ['', Validators.required],
-        businessName: ['', Validators.required]
+        fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
+        phone: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
+        dni: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
+        businessName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s]*$/)]],
+        whatsappNumber: ['', [Validators.pattern(/^[0-9]{9}$/)]],
+        autoReplyMessage: ['Gracias por contactarnos'],
+        paymentMethods: this.fb.array([])
       });
     }
-
+  
     this.authForm = this.fb.group(baseForm);
   }
 
@@ -67,29 +66,47 @@ export class AuthModalComponent {
       this.isLoading = true;
       this.error = null;
 
-      const action = this.isLogin
-        ? this.authService.login(this.authForm.value)
-        : this.authService.register({
-            ...this.authForm.value,
-            role: 'SELLER',
-            settings: {
-              whatsappNumber: this.authForm.value.phone || '',
-              autoReplyMessage: '',
-              customTheme: 'DARK',
-              paymentMethods: []
-            }
-          });
+      if (this.isLogin) {
+        this.authService.login(this.authForm.value).subscribe({
+          next: () => {
+            this.router.navigate(['/app/dashboard']);
+            this.closeModal();
+          },
+          error: (error) => {
+            this.error = error.error?.message || 'Error durante el inicio de sesión';
+            this.isLoading = false;
+          }
+        });
+      } else {
+        // Preparar datos de registro según el swagger
+        const registerData: RegisterRequest = {
+          email: this.authForm.value.email,
+          password: this.authForm.value.password,
+          fullName: this.authForm.value.fullName,
+          dni: this.authForm.value.dni,
+          phone: this.authForm.value.phone,
+          businessName: this.authForm.value.businessName,
+          role: 'SELLER',
+          subscriptionPlan: 'FREE',
+          settings: {
+            whatsappNumber: this.authForm.value.whatsappNumber || this.authForm.value.phone,
+            autoReplyMessage: this.authForm.value.autoReplyMessage || 'Gracias por contactarnos',
+            customTheme: 'LIGHT',
+            paymentMethods: ['YAPE', 'PLIN']
+          }
+        };
 
-      action.subscribe({
-        next: () => {
-          this.router.navigate(['/dashboard']);
-          this.closeModal();
-        },
-        error: (error) => {
-          this.error = error.error.message || `Error durante ${this.isLogin ? 'el inicio de sesión' : 'el registro'}`;
-          this.isLoading = false;
-        }
-      });
+        this.authService.register(registerData).subscribe({
+          next: () => {
+            this.router.navigate(['/app/dashboard']);
+            this.closeModal();
+          },
+          error: (error) => {
+            this.error = error.error?.message || 'Error durante el registro';
+            this.isLoading = false;
+          }
+        });
+      }
     } else {
       this.authForm.markAllAsTouched();
     }

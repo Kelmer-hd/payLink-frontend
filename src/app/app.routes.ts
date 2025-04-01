@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { PublicGuard } from './guards/public.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { PublicGuard } from './guards/public.guard';
+import { PublicProductComponent } from './public/product/product.component';
 
 export const routes: Routes = [
   {
@@ -17,14 +18,41 @@ export const routes: Routes = [
   },
   {
     path: 'app',
+    title: 'Panel de administración',
+    loadComponent: () => import('./admin/seller/layout/layout.component'),
     canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('./home/dashboard/dashboard.component').then(m => m.DashboardComponent)
+        title: 'Dashboard',
+        loadComponent: () => import('./admin/seller/dashboard/dashboard.component')
       },
+      {
+        path: 'products',
+        title: 'Productos',
+        children: [
+          {
+            path: '',
+            title: 'Lista de productos',
+            loadComponent: () => import('./admin/seller/products/products.component')
+          },
+          {
+            path: 'new',
+            title: 'Nuevo producto',
+            loadComponent: () => import('./admin/seller/product-form/product-form.component')
+          },
+          {
+            path: 'edit/:id',
+            title: 'Editar producto',
+            loadComponent: () => import('./admin/seller/product-form/product-form.component')
+          }
+        ]
+      }
     ]
+  },
+  {
+    path: 'producto/:slug',
+    component: PublicProductComponent
   },
   { path: '**', redirectTo: '/' }
 ];

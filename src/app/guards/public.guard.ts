@@ -6,14 +6,19 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class PublicGuard {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   canActivate: CanActivateFn = () => {
-    if (!this.authService.currentUserValue) {
-      return true;
+    const currentUser = this.authService.currentUserValue;
+    
+    if (currentUser?.token) {
+      this.router.navigate(['/app/dashboard']);
+      return false;
     }
 
-    this.router.navigate(['/dashboard']);
-    return false;
+    return true;
   }
 }

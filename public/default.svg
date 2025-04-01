@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-10 rounded-lg object-cover">
+  <rect width="100" height="100" fill="#e2e8f0" /> <!-- Fondo gris claro -->
+  <path d="M50 30L30 70H70L50 30Z" fill="#4a5568" /> <!-- Triángulo central -->
+  <circle cx="50" cy="50" r="10" fill="#cbd5e0" /> <!-- Círculo central -->
+</svg>
