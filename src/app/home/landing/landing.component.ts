@@ -7,6 +7,8 @@ import { PricingComponent } from '../pricing/pricing.component';
 import { FooterComponent } from '../footer/footer.component';
 import { FeatureComponent } from '../feature/feature.component';
 import { ProductDemoComponent } from '../product-demo/product-demo.component';
+import { CommonModule } from '@angular/common';
+
 
 
 @Component({

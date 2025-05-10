@@ -1,24 +1,30 @@
-<div class="relative pt-32 pb-20">
-    <div class="max-w-6xl mx-auto px-6">
+<div class="relative pt-32 pb-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-transparent"></div>
+    <div class="absolute inset-0">
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+    </div>
+    <div class="max-w-6xl mx-auto px-6 relative">
         <div class="max-w-3xl">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
-                <span class="text-purple-400">Nuevo</span>
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 hover:bg-white/10 transition-all duration-300">
+                <span class="text-purple-400 animate-pulse">Nuevo</span>
                 <span class="text-gray-400">|</span>
                 <span class="text-gray-400">Integración con Yape y Plin</span>
                 <i class="lucide-chevron-right w-4 h-4 text-gray-400"></i>
             </div>
             <h1
-                class="text-6xl font-bold mb-8 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+                class="text-6xl font-bold mb-8 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent animate-fade-in">
                 Tu catálogo. <br />
                 Un solo link. <br />
                 Ventas infinitas.
             </h1>
-            <p class="text-xl text-gray-400 mb-12">
+            <p class="text-xl text-gray-400 mb-12 animate-fade-in animation-delay-200">
                 Convierte tus productos en links únicos y vende directamente por Redes Sociales.
                 Sin complicaciones, sin tienda completa, solo ventas.
             </p>
             <button (click)="showAuthModal = true; authMode = 'register'"
-                class="group bg-white text-black px-6 py-3 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition-all">
+                class="group bg-white text-black px-8 py-4 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition-all hover:scale-105 hover:shadow-lg">
                 Empezar gratis
                 <i class="lucide-arrow-right w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
             </button>

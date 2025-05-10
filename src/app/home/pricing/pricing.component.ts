@@ -20,7 +20,10 @@ export class PricingComponent {
         'Pagos con Yape/Plin',
         'Estadísticas básicas',
         'Soporte por correo',
-        'Sin comisiones por venta'
+        'Sin comisiones por venta',
+        '',
+        '',
+        ''
       ],
       cta: 'Empezar gratis',
       highlighted: false

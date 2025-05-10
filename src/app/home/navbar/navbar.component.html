@@ -1,20 +1,36 @@
 <nav class="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-sm border-b border-white/10">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <div class="font-bold text-xl">ProductLink</div>
+      <a href="/" class="flex items-center gap-2 group">
+        <!-- Logo SVG -->
+        <div class="relative w-8 h-8">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg transform rotate-45 group-hover:rotate-180 transition-transform duration-500"></div>
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-400 to-blue-400 rounded-lg transform -rotate-45 group-hover:-rotate-180 transition-transform duration-500"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <span class="font-bold text-xl bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+          Product<span class="text-purple-400">Link</span>
+        </span>
+      </a>
       <div class="flex items-center gap-6">
         <a href="#features" 
           (click)="handleScroll($event, 'features')" 
-          class="text-gray-400 hover:text-white">
+          class="text-gray-400 hover:text-white transition-colors">
           Características
         </a>
         <a href="#pricing" 
           (click)="handleScroll($event, 'pricing')" 
-          class="text-gray-400 hover:text-white">
+          class="text-gray-400 hover:text-white transition-colors">
           Precios
         </a>
         <button
           routerLink="/auth"
-          class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+          class="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20"
         >
           Iniciar sesión
         </button>
